@@ -1,0 +1,119 @@
+type http_request_result = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type http_header = 
+ record {
+   name: text;
+   value: text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UserProfilePublic = 
+ record {
+   createdAt: Timestamp;
+   displayName: text;
+   photoCount: nat;
+   userId: UserId;
+ };
+type UserId = principal;
+type TransformationOutput = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type TransformationInput = 
+ record {
+   context: blob;
+   response: http_request_result;
+ };
+type Timestamp = int;
+type ShootPlanPublic = 
+ record {
+   createdAt: Timestamp;
+   id: PlanId;
+   location: text;
+   name: text;
+   notes: text;
+   poseIds: vec PoseId;
+   scheduledDate: opt text;
+   shotList: vec text;
+   updatedAt: Timestamp;
+ };
+type Role = 
+ variant {
+   assistant;
+   user;
+ };
+type PoseIdeaPublic = 
+ record {
+   description: text;
+   difficulty: Difficulty;
+   id: PoseId;
+   isFavorite: bool;
+   name: text;
+   savedAt: Timestamp;
+   tags: vec text;
+ };
+type PoseId = nat;
+type PlanId = nat;
+type MessageId = nat;
+type Difficulty = 
+ variant {
+   advanced;
+   easy;
+   medium;
+ };
+type ChatMessage = 
+ record {
+   content: text;
+   id: MessageId;
+   role: Role;
+   timestamp: Timestamp;
+ };
+service : {
+  _initializeAccessControl: () -> ();
+  addChatMessage: (role: text, content: text) -> (ChatMessage);
+  askAI: (prompt: text, history: vec record {
+                                       text;
+                                       text;
+                                     }) -> (text);
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  clearChatHistory: () -> (bool);
+  createPose: (name: text, description: text, difficulty: Difficulty, tags:
+   vec text) -> (PoseIdeaPublic);
+  createShootPlan: (name: text, location: text, scheduledDate: opt text,
+   poseIds: vec PoseId, notes: text) -> (ShootPlanPublic);
+  deletePose: (id: PoseId) -> (bool);
+  deleteShootPlan: (id: PlanId) -> (bool);
+  duplicateShootPlan: (id: PlanId, newName: text) -> (opt ShootPlanPublic);
+  favoritePose: (id: PoseId) -> (bool);
+  generatePoseIdeas: (theme: text, count: nat) -> (text);
+  generateShootPlan: (planName: text, location: text, poseNames: vec text) ->
+   (text);
+  getCallerUserProfile: () -> (opt UserProfilePublic) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getChatHistory: () -> (vec ChatMessage) query;
+  getPoses: () -> (vec PoseIdeaPublic) query;
+  getProfile: () -> (opt UserProfilePublic) query;
+  getShootPlan: (id: PlanId) -> (opt ShootPlanPublic) query;
+  getShootPlans: () -> (vec ShootPlanPublic) query;
+  getUserProfile: (user: principal) -> (opt UserProfilePublic) query;
+  isCallerAdmin: () -> (bool) query;
+  saveCallerUserProfile: (displayName: text) -> ();
+  setOpenAIKey: (apiKey: text) -> ();
+  transform: (input: TransformationInput) -> (TransformationOutput) query;
+  updatePose: (id: PoseId, name: text, description: text, difficulty:
+   Difficulty, tags: vec text) -> (opt PoseIdeaPublic);
+  updateProfile: (displayName: text) -> (UserProfilePublic);
+  updateShootPlan: (id: PlanId, name: text, location: text, scheduledDate:
+   opt text, poseIds: vec PoseId, shotList: vec text, notes: text) ->
+   (opt ShootPlanPublic);
+}

@@ -1,0 +1,27 @@
+{
+  "overview": "SHOOT SENSE AI is an ultra-futuristic AI photography planning platform (Year 2258 style) that empowers photographers to plan shoots, generate AI pose ideas, chat with an AI photography expert, and save/reuse shoot templates — all wrapped in a dark cyberpunk UI with 3D elements and GSAP animations.",
+  "features": [
+    "AI Photography Planner with shoot creation and management",
+    "Pose Creator with AI-generated pose ideas and personal library",
+    "AI Chat Assistant powered by OpenAI for photography guidance",
+    "Shoot Planner with save, reuse, and template cloning",
+    "Internet Identity authentication and user profiles",
+    "Ultra-futuristic 3D UI with GSAP animations and neon cyan/purple cyberpunk aesthetic",
+    "Glassmorphism cards and Three.js animated background",
+    "Fully responsive mobile and desktop layout"
+  ],
+  "category": "productivity",
+  "tags": [
+    "photography",
+    "ai",
+    "planner",
+    "poses",
+    "chat",
+    "futuristic",
+    "3d",
+    "gsap",
+    "cyberpunk",
+    "openai"
+  ],
+  "last_updated": "2026-04-17T06:18:16.065Z"
+}
